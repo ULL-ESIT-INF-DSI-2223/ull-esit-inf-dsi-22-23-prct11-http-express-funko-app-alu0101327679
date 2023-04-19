@@ -177,7 +177,7 @@ export class Funko {
   get valorDeMercado_() {
     return this.valorDeMercado;
   }
-  
+
   /**
    * metodo para modificar el valor de mercado del funko
    */

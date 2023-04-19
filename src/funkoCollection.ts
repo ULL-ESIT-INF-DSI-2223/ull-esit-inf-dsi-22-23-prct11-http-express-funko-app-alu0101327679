@@ -11,8 +11,7 @@ export class FuncosCollection {
   /**
    * constructor de la clase funko
    */
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * metodo para almacenar un funko en el fichero
@@ -22,22 +21,30 @@ export class FuncosCollection {
     const fileName = funko.id + ".json";
     const dirName = usuario.toLowerCase().replace(/\s+/g, "-");
     const filePath = `./funkos/${dirName}/${fileName}`;
-  
+
     // Comprobamos si el fichero ya existe en el directorio
     if (fs.existsSync(filePath)) {
-      console.log(chalk.bold.red(`Ya existe un Funko con el nombre ${funko.nombre} en el directorio ${dirName}`));
+      console.log(
+        chalk.bold.red(
+          `Ya existe un Funko con el nombre ${funko.nombre} en el directorio ${dirName}`
+        )
+      );
       return;
     }
-  
+
     fs.mkdirSync(`./funkos/${dirName}`, { recursive: true });
     fs.writeFileSync(filePath, JSON.stringify(funko));
-    console.log(chalk.green.bold(`El Funko "${funko.nombre}" fue almacenado correctamente.`));
+    console.log(
+      chalk.green.bold(
+        `El Funko "${funko.nombre}" fue almacenado correctamente.`
+      )
+    );
   }
 
-    /**
-     * metodo para eliminar un funko del fichero
-     * @param id id del funko a eliminar
-     */
+  /**
+   * metodo para eliminar un funko del fichero
+   * @param id id del funko a eliminar
+   */
   public eliminarFunkoUsuario(id: number, usuario: string) {
     const fileName = id.toString() + ".json";
     const dirName = usuario.toLowerCase().replace(/\s+/g, "-");
@@ -45,11 +52,15 @@ export class FuncosCollection {
 
     try {
       fs.unlinkSync(filePath);
-      console.log(chalk.green.bold(`El Funko "${id}" fue eliminado correctamente.`));
-      return true
+      console.log(
+        chalk.green.bold(`El Funko "${id}" fue eliminado correctamente.`)
+      );
+      return true;
     } catch (error) {
-      console.error(chalk.red.bold(`Error al intentar eliminar el Funko "${id}"`));
-      return false
+      console.error(
+        chalk.red.bold(`Error al intentar eliminar el Funko "${id}"`)
+      );
+      return false;
     }
   }
   /**
@@ -90,10 +101,16 @@ export class FuncosCollection {
       const nuevoContenido = JSON.stringify(nuevoFunko);
       fs.writeFileSync(filePath, nuevoContenido, "utf8");
       console.log(
-        chalk.bold.green(`El Funko "${id.toString()}" ha sido modificado exitosamente.`)
+        chalk.bold.green(
+          `El Funko "${id.toString()}" ha sido modificado exitosamente.`
+        )
       );
     } else {
-      console.log(chalk.bold.red(`No se encontró el archivo del Funko "${id.toString()}".`));
+      console.log(
+        chalk.bold.red(
+          `No se encontró el archivo del Funko "${id.toString()}".`
+        )
+      );
     }
   }
 
@@ -105,21 +122,23 @@ export class FuncosCollection {
     const valorBajo = 50;
     const valorMedio = 100;
     const valorAlto = 500;
-  
+
     console.log(chalk.bold("Funkos existentes:"));
     // console.log('');
     let funkos = this.cargarFunkosUsuario(usuario);
-  
+
     if (funkos.length === 0) {
-      console.log(chalk.bold.red("No se encontraron funkos para el usuario: " + usuario));
-      return false
+      console.log(
+        chalk.bold.red("No se encontraron funkos para el usuario: " + usuario)
+      );
+      return false;
     }
-  
+
     for (const funko of funkos) {
       const valor = funko.valorDeMercado;
-  
+
       let valorColoreado: string;
-  
+
       if (valor >= 200) {
         valorColoreado = chalk.green.bold(valor.toFixed(2));
       } else if (valor >= 150) {
@@ -129,21 +148,21 @@ export class FuncosCollection {
       } else {
         valorColoreado = chalk.red.bold(valor.toFixed(2));
       }
-  
+
       console.log(
         chalk.bold.magenta(funko.nombre) +
           " - Valor de mercado: " +
           valorColoreado
       );
     }
-    return true
+    return true;
   }
 
   /**
    * metodo para mostrar un funko del usuario
    * @param id id del funko a mostrar
    */
-  public mostrarFunkoUsuario(id: number, usuario: string): boolean{
+  public mostrarFunkoUsuario(id: number, usuario: string): boolean {
     const fileName = `${id}.json`;
     const dirName = usuario.toLowerCase().replace(/\s+/g, "-");
     const filePath = `./funkos/${dirName}/${fileName}`;
@@ -175,10 +194,10 @@ export class FuncosCollection {
         color = chalk.red;
       }
       console.log(`Valor de mercado: ${color.bold(`$${valor.toFixed(2)}`)}`);
-      return true
+      return true;
     } catch (err) {
       console.log(chalk.red(`No existe un Funko con ID ${id} en la lista.`));
-      return false
+      return false;
     }
   }
 }

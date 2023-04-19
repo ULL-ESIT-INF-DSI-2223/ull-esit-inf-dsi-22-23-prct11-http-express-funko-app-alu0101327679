@@ -1,10 +1,7 @@
+import { Bolsa } from "./bolsa.js";
 
-import { Bolsa } from './bolsa.js';
-
-import { RegistroCSV } from './RegistroCSV.js';
-import { RegistroJSON } from './RegistroJSON.js';
-
-
+import { RegistroCSV } from "./RegistroCSV.js";
+import { RegistroJSON } from "./RegistroJSON.js";
 
 // const tipo: Bolsa = { capacidad: 0, n_elementos: 0, elementos: []}
 
