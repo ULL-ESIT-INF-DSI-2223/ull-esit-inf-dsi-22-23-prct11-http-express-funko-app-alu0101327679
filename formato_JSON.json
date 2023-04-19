@@ -1,0 +1,26 @@
+{
+  "capacidad": 40,
+  "num_elemetos": 5,
+  "elementos": [
+    {
+      "peso": 10,
+      "volumen": 20
+    }, 
+    {
+      "peso": 10,
+      "volumen": 30
+    },
+    {
+      "peso": 5,
+      "volumen": 40
+    }, 
+    {
+      "peso": 14,
+      "volumen": 5
+    },
+    {
+      "peso": 33,
+      "volumen": 4
+    }
+  ]
+}
