@@ -1,7 +1,7 @@
-import { RegistroCSV } from "./../../src/modificacion/RegistroCSV.js";
-import { Bolsa } from "./../../src/modificacion/bolsa.js";
+import { RegistroCSV } from "../../../src/funkos/modificacion/RegistroCSV.js";
+// import { Bolsa } from "../../src/funkos/modificacion/bolsa.js";
+import { Bolsa } from "../../../src/funkos/modificacion/bolsa.js";
 
-import { readFile } from "fs";
 import { expect } from "chai";
 
 describe("RegistroCSV", () => {

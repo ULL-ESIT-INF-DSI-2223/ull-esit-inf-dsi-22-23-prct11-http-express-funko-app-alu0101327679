@@ -1,7 +1,7 @@
-import { RegistroJSON } from "./../../src/modificacion/RegistroJSON.js";
-import { Bolsa } from "./../../src/modificacion/bolsa.js";
+import { RegistroJSON } from "../../../src/funkos/modificacion/RegistroJSON.js";
+import { Bolsa } from "../../../src/funkos/modificacion/bolsa.js";
 
-import { readFile } from "fs";
+// import { readFile } from "fs";
 import { expect } from "chai";
 
 describe("RegistroJSON", () => {

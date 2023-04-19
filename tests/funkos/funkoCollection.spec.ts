@@ -1,9 +1,9 @@
+// import fs from "fs";
 import fs from "fs";
-import path from "path";
+// import path from "path";
 import chalk from "chalk";
-import { FuncosCollection } from "./../src/funkoCollection.js";
-import { Funko } from "./../src/funco.js";
-import { funko1, funko2, funko3, funko4 } from "./../src/main.js";
+import { FuncosCollection } from "../../src/funkos/funkoCollection.js";
+import { funko1, funko2, funko3, funko4 } from "../../src/funkos/main.js";
 import { expect } from "chai";
 
 /**

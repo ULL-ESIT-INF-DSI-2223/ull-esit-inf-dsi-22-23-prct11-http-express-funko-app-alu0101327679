@@ -1,9 +1,10 @@
 import "mocha";
 import { expect } from "chai";
 
-import { Tipo } from "./../src/tipo.js";
-import { Genero } from "./../src/genero.js";
-import { Funko } from "./../src/funco.js";
+// import { Tipo } from "./../src/funkotipo.js";
+import { Tipo } from "../../src/funkos/tipo.js"
+import { Genero } from "../../src/funkos/genero.js";
+import { Funko } from "../../src/funkos/funco.js";
 
 describe("Funko", () => {
   let funko: Funko;
