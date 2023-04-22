@@ -131,6 +131,7 @@ export class funkoServer {
     let existente: Funko | undefined = funkoPops.find(
       (funko) => funko.id.toString() == requerimiento.query.id
     );
+
     if(existente != undefined){
       respuesta.status(400).send({error: "Ya existe un funko con ese id"})
     }
@@ -154,7 +155,7 @@ export class funkoServer {
       funkoPops,
       requerimiento.query.user as string
     );
-      respuesta.send({funko})
+      respuesta.status(200).send({funko})
   };
 
   private eliminar = (
