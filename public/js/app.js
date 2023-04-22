@@ -1,1 +1,1 @@
-console.log('Hello from a client');
+console.log("Hello from a client");

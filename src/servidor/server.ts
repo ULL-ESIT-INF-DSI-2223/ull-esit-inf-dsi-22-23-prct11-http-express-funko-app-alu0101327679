@@ -68,9 +68,8 @@ export class funkoServer {
 
       let funkos = new FuncosCollection().guardarFunkosUsuario(
         funkoPops,
-        requerimiento.query.user as string,
+        requerimiento.query.user as string
       );
-      
     } else if (requerimiento.query.cmd == "listar") {
       if (requerimiento.query.user == undefined) {
         respuesta
@@ -91,22 +90,105 @@ export class funkoServer {
 
       let funkos = new FuncosCollection().guardarFunkosUsuario(
         funkoPops,
-        requerimiento.query.user as string,
+        requerimiento.query.user as string
       );
     }
-
-
   };
 
   private add = (
     requerimiento: express.Request,
     respuesta: express.Response
-  ) => {};
+  ) => {
+    if(requerimiento.query.user == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el usuario"})
+    }else if(requerimiento.query.id == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el id"})
+    }else if(requerimiento.query.name == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el nombre"})
+    }else if(requerimiento.query.tipo == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el tipo"})
+    }else if(requerimiento.query.genero == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el genero"})
+    }else if(requerimiento.query.descripcion == undefined){
+      respuesta.status(400).send({error: "No se ha introducido la descripcion"})
+    }else if(requerimiento.query.precio == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el precio"})
+    }else if(requerimiento.query.franquicia == undefined){
+      respuesta.status(400).send({error: "No se ha introducido la franquicia"})
+    }else if(requerimiento.query.numero == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el numero"})
+    }else if(requerimiento.query.exclusivo == undefined){
+      respuesta.status(400).send({error: "No se ha introducido si es exclusivo"})
+    }else if(requerimiento.query.caracteristicasEspeciales == undefined){
+      respuesta.status(400).send({error: "No se ha introducido las caracteristicas especiales"})
+    }
+
+    let funkoPops: Funko[] = [];
+    funkoPops = new FuncosCollection().cargarFunkosUsuario(
+      requerimiento.query.user as string
+    );
+
+    let existente: Funko | undefined = funkoPops.find(
+      (funko) => funko.id.toString() == requerimiento.query.id
+    );
+    if(existente != undefined){
+      respuesta.status(400).send({error: "Ya existe un funko con ese id"})
+    }
+
+    let funko: Funko = new Funko(
+      parseInt(requerimiento.query.id as string),
+      requerimiento.query.name as string,
+      requerimiento.query.descripcion as string,
+      requerimiento.query.tipo as Tipo,
+      requerimiento.query.genero as Genero,
+      requerimiento.query.franquicia as string,
+      parseInt(requerimiento.query.numero as string),
+      requerimiento.query.exclusivo as string == "true" ? true : false,
+      requerimiento.query.caracteristicasEspeciales as string,
+      parseFloat(requerimiento.query.precio as string)
+    );
+
+    funkoPops.push(funko);
+
+    let funkos = new FuncosCollection().guardarFunkosUsuario(
+      funkoPops,
+      requerimiento.query.user as string
+    );
+      respuesta.send({funko})
+  };
 
   private eliminar = (
     requerimiento: express.Request,
     respuesta: express.Response
-  ) => {};
+  ) => {
+    if(requerimiento.query.user == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el usuario"})
+    }else if(requerimiento.query.id == undefined){
+      respuesta.status(400).send({error: "No se ha introducido el id"})
+    }
+
+    let funkoPops: Funko[] = [];
+    funkoPops = new FuncosCollection().cargarFunkosUsuario(
+      requerimiento.query.user as string
+    );
+
+    let funko: Funko | undefined = funkoPops.find(
+      (funko) => funko.id.toString() == requerimiento.query.id
+    );
+
+    if(funko == undefined){
+      respuesta.status(404).send({error: "No se ha encontrado el recurso"})
+    }else{
+      funkoPops = funkoPops.filter((funko) => funko.id.toString() != requerimiento.query.id)
+      let funkos = new FuncosCollection().guardarFunkosUsuario(
+        funkoPops,
+        requerimiento.query.user as string
+      );
+      respuesta.send({message : "Funko eliminado"})
+    }
+
+
+  };
 
   private modificar = (
     requerimiento: express.Request,
