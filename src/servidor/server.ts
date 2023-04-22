@@ -178,7 +178,7 @@ export class funkoServer {
     );
 
     if(funko == undefined){
-      respuesta.status(404).send({error: "No se ha encontrado el recurso"})
+      respuesta.status(400).send({error: "No se ha encontrado el recurso"})
     }else{
       funkoPops = funkoPops.filter((funko) => funko.id.toString() != requerimiento.query.id)
       let funkos = new FuncosCollection().guardarFunkosUsuario(
@@ -229,7 +229,7 @@ export class funkoServer {
     );
 
     if(funko == undefined){
-      respuesta.status(404).send({error: "No se ha encontrado el recurso"})
+      respuesta.status(400).send({error: "No se ha encontrado el recurso"})
     }else{
       funkoPops = funkoPops.filter((funko) => funko.id.toString() != requerimiento.query.id)
       let funkoModificado: Funko = new Funko(
