@@ -51,6 +51,9 @@ export class funkoServer {
       } else if (requerimiento.query.id == undefined) {
         respuesta.status(400).send({ error: "No se ha introducido el id" });
       }
+
+      
+
       let funkoPops: Funko[] = [];
       funkoPops = new FuncosCollection().cargarFunkosUsuario(
         requerimiento.query.user as string
