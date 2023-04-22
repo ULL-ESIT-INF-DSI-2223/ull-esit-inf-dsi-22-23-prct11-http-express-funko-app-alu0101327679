@@ -1,7 +1,7 @@
 {
   "entryPoints": [
-    "./src/funkos/**ts",
-    "./src/laboratorio/**js"
+    "./src/servidor/**ts",
+    "./src/servidor/funkos/**ts"
   ],
   "out": "./docs"
 }
