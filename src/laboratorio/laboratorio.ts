@@ -74,4 +74,4 @@ export class servidor {
     respuesta.status(400).send(); // devuelve un error 400 al servidor
   };
 }
-new servidor().encender(3000);
+new servidor().encender(60300);

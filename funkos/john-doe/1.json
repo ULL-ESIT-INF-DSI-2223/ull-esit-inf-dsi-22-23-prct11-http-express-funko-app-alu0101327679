@@ -1,12 +1,1 @@
-{
-  "id": 3,
-  "nombre": "Joker",
-  "descripcion": "Funko de Joker",
-  "tipo": "Vinyl Soda",
-  "genero": "Animación",
-  "franquicia": "DC Comics",
-  "numero": 3,
-  "exclusivo": true,
-  "caracteristicasEspeciales": "Edicion FlashPoint",
-  "valorDeMercado": 150
-}
+{"id":3,"nombre":"Joker","descripcion":"Funko de Joker","tipo":"Vinyl Soda","genero":"Animación","franquicia":"DC Comics","numero":3,"exclusivo":true,"caracteristicasEspeciales":"Edicion FlashPoint","valorDeMercado":150}
