@@ -241,4 +241,4 @@ yargs(hideBin(process.argv))
   )
   .help().argv;
 
-// node dist/comand.js add --id 4 --usuario "User1" --nombre "paco" --descripcion "funko de paco" --tipo "Pop!" --genero "Animación" --franquicia "Disney" --numero 3 --exclusivo false --caracteristicasEspeciales "funko de paco" --valorDeMercado 300
+// node dist/funkos/comand.js add --id 4 --usuario "User1" --nombre "paco" --descripcion "funko de paco" --tipo "Pop!" --genero "Animación" --franquicia "Disney" --numero 3 --exclusivo false --caracteristicasEspeciales "funko de paco" --valorDeMercado 300
