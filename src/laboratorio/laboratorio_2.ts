@@ -26,6 +26,7 @@ export class clienteMongo {
   }
 
   mostrar(username: string, id: string) {
+    let resultado: Funko
     MongoClient.connect(this.dbURL)
       .then((client) => {
         const db = client.db(username);
@@ -39,6 +40,7 @@ export class clienteMongo {
       .catch((error) => {
         console.log(error);
       });
+      return 
   }
 
   listar(username: string) {
@@ -49,6 +51,7 @@ export class clienteMongo {
       })
       .then((result) => {
         console.log(result);
+        
       })
       .catch((error) => {
         console.log(error);

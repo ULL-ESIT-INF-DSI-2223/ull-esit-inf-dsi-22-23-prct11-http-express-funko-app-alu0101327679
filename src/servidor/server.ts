@@ -5,6 +5,9 @@ import { Tipo } from "./funkos/tipo.js";
 import { Genero } from "./funkos/genero.js";
 import { FuncosCollection } from "./funkos/funkoCollection.js";
 import { Funko } from "./funkos/funco.js";
+import { clienteMongo } from "../laboratorio/laboratorio_2.js";
+import { json } from "stream/consumers";
+import { Admin } from "mongodb";
 
 export type ResponseType = {
   success: boolean;
@@ -41,6 +44,7 @@ export class funkoServer {
     requerimiento: express.Request,
     respuesta: express.Response
   ) => {
+    let administrador = new clienteMongo()
     if (requerimiento.query.cmd == undefined) {
       respuesta.status(400).send({ error: "No se ha introducido el comando" });
     } else if (requerimiento.query.cmd == "mostrar") {
@@ -52,27 +56,29 @@ export class funkoServer {
         respuesta.status(400).send({ error: "No se ha introducido el id" });
       }
 
+      let administrador = new clienteMongo()
+      let var1: Funko
+      respuesta.send(JSON.stringify(administrador.mostrar(requerimiento.query.user as string, requerimiento.query.id as string)))
 
+      // let funkoPops: Funko[] = [];
+      // funkoPops = new FuncosCollection().cargarFunkosUsuario(
+      //   requerimiento.query.user as string
+      // );
 
-      let funkoPops: Funko[] = [];
-      funkoPops = new FuncosCollection().cargarFunkosUsuario(
-        requerimiento.query.user as string
-      );
+      // let funko: Funko | undefined = funkoPops.find(
+      //   (funko) => funko.id.toString() == requerimiento.query.id
+      // );
 
-      let funko: Funko | undefined = funkoPops.find(
-        (funko) => funko.id.toString() == requerimiento.query.id
-      );
+      // if (funko == undefined) {
+      //   respuesta.status(404).send({ error: "No se ha encontrado el recurso" });
+      // } else {
+      //   respuesta.send({ funko });
+      // }
 
-      if (funko == undefined) {
-        respuesta.status(404).send({ error: "No se ha encontrado el recurso" });
-      } else {
-        respuesta.send({ funko });
-      }
-
-      let funkos = new FuncosCollection().guardarFunkosUsuario(
-        funkoPops,
-        requerimiento.query.user as string
-      );
+      // let funkos = new FuncosCollection().guardarFunkosUsuario(
+      //   funkoPops,
+      //   requerimiento.query.user as string
+      // );
     } else if (requerimiento.query.cmd == "listar") {
       if (requerimiento.query.user == undefined) {
         respuesta
@@ -80,21 +86,23 @@ export class funkoServer {
           .send({ error: "No se ha introducido el usuario" });
       }
 
-      let funkoPops: Funko[] = [];
-      funkoPops = new FuncosCollection().cargarFunkosUsuario(
-        requerimiento.query.user as string
-      );
+      respuesta.send(JSON.stringify(administrador.listar(requerimiento.query.user as string)))
 
-      if (funkoPops == undefined) {
-        respuesta.status(404).send({ error: "No se ha encontrado el recurso" });
-      } else {
-        respuesta.send({ funkoPops });
-      }
+      // let funkoPops: Funko[] = [];
+      // funkoPops = new FuncosCollection().cargarFunkosUsuario(
+      //   requerimiento.query.user as string
+      // );
 
-      let funkos = new FuncosCollection().guardarFunkosUsuario(
-        funkoPops,
-        requerimiento.query.user as string
-      );
+      // if (funkoPops == undefined) {
+      //   respuesta.status(404).send({ error: "No se ha encontrado el recurso" });
+      // } else {
+      //   respuesta.send({ funkoPops });
+      // }
+
+      // let funkos = new FuncosCollection().guardarFunkosUsuario(
+      //   funkoPops,
+      //   requerimiento.query.user as string
+      // );
     }
   };
 
@@ -102,6 +110,8 @@ export class funkoServer {
     requerimiento: express.Request,
     respuesta: express.Response
   ) => {
+    let administrador = new clienteMongo()
+
     if(requerimiento.query.user == undefined){
       respuesta.status(400).send({error: "No se ha introducido el usuario"})
     }else if(requerimiento.query.id == undefined){
@@ -126,18 +136,18 @@ export class funkoServer {
       respuesta.status(400).send({error: "No se ha introducido las caracteristicas especiales"})
     }
 
-    let funkoPops: Funko[] = [];
-    funkoPops = new FuncosCollection().cargarFunkosUsuario(
-      requerimiento.query.user as string
-    );
+    // let funkoPops: Funko[] = [];
+    // funkoPops = new FuncosCollection().cargarFunkosUsuario(
+    //   requerimiento.query.user as string
+    // );
 
-    let existente: Funko | undefined = funkoPops.find(
-      (funko) => funko.id.toString() == requerimiento.query.id
-    );
+    // let existente: Funko | undefined = funkoPops.find(
+    //   (funko) => funko.id.toString() == requerimiento.query.id
+    // );
 
-    if(existente != undefined){
-      respuesta.status(400).send({error: "Ya existe un funko con ese id"})
-    }
+    // if(existente != undefined){
+    //   respuesta.status(400).send({error: "Ya existe un funko con ese id"})
+    // }
 
     let funko: Funko = new Funko(
       parseInt(requerimiento.query.id as string),
@@ -152,44 +162,47 @@ export class funkoServer {
       parseFloat(requerimiento.query.precio as string)
     );
 
-    funkoPops.push(funko);
+    // funkoPops.push(funko);
 
-    let funkos = new FuncosCollection().guardarFunkosUsuario(
-      funkoPops,
-      requerimiento.query.user as string
-    );
-      respuesta.status(200).send({funko})
+    // let funkos = new FuncosCollection().guardarFunkosUsuario(
+    //   funkoPops,
+    //   requerimiento.query.user as string
+    // );
+      respuesta.status(200).send(JSON.stringify(administrador.add(funko, requerimiento.query.user as string)))
   };
 
   private eliminar = (
     requerimiento: express.Request,
     respuesta: express.Response
   ) => {
+    let administrador = new clienteMongo()
     if(requerimiento.query.user == undefined){
       respuesta.status(400).send({error: "No se ha introducido el usuario"})
     }else if(requerimiento.query.id == undefined){
       respuesta.status(400).send({error: "No se ha introducido el id"})
     }
 
-    let funkoPops: Funko[] = [];
-    funkoPops = new FuncosCollection().cargarFunkosUsuario(
-      requerimiento.query.user as string
-    );
+    // let funkoPops: Funko[] = [];
+    // funkoPops = new FuncosCollection().cargarFunkosUsuario(
+    //   requerimiento.query.user as string
+    // );
 
-    let funko: Funko | undefined = funkoPops.find(
-      (funko) => funko.id.toString() == requerimiento.query.id
-    );
+    // let funko: Funko | undefined = funkoPops.find(
+    //   (funko) => funko.id.toString() == requerimiento.query.id
+    // );
 
-    if(funko == undefined){
-      respuesta.status(400).send({error: "No se ha encontrado el recurso"})
-    }else{
-      funkoPops = funkoPops.filter((funko) => funko.id.toString() != requerimiento.query.id)
-      let funkos = new FuncosCollection().guardarFunkosUsuario(
-        funkoPops,
-        requerimiento.query.user as string
-      );
-      respuesta.send({message : "Funko eliminado"})
-    }
+    // if(funko == undefined){
+    //   respuesta.status(400).send({error: "No se ha encontrado el recurso"})
+    // }else{
+    //   funkoPops = funkoPops.filter((funko) => funko.id.toString() != requerimiento.query.id)
+    //   let funkos = new FuncosCollection().guardarFunkosUsuario(
+    //     funkoPops,
+    //     requerimiento.query.user as string
+    //   );
+    //   respuesta.send({message : "Funko eliminado"})
+    // }
+
+    respuesta.send(JSON.stringify(administrador.delete(requerimiento.query.name as string, requerimiento.query.user as string)))
 
 
   };
@@ -198,6 +211,8 @@ export class funkoServer {
     requerimiento: express.Request,
     respuesta: express.Response
   ) => {
+    let administrador = new clienteMongo()
+
     if(requerimiento.query.user == undefined){
       respuesta.status(400).send({error: "No se ha introducido el usuario"})
     }else if(requerimiento.query.id == undefined){
@@ -222,38 +237,53 @@ export class funkoServer {
       respuesta.status(400).send({error: "No se ha introducido las caracteristicas especiales"})
     }
 
-    let funkoPops: Funko[] = [];
-    funkoPops = new FuncosCollection().cargarFunkosUsuario(
-      requerimiento.query.user as string
+
+    let funko: Funko = new Funko(
+      parseInt(requerimiento.query.id as string),
+      requerimiento.query.name as string,
+      requerimiento.query.descripcion as string,
+      requerimiento.query.tipo as Tipo,
+      requerimiento.query.genero as Genero,
+      requerimiento.query.franquicia as string,
+      parseInt(requerimiento.query.numero as string),
+      requerimiento.query.exclusivo as string == "true" ? true : false,
+      requerimiento.query.caracteristicasEspeciales as string,
+      parseFloat(requerimiento.query.precio as string)
     );
 
-    let funko: Funko | undefined = funkoPops.find(
-      (funko) => funko.id.toString() == requerimiento.query.id
-    );
+    respuesta.send(JSON.stringify(administrador.update(requerimiento.query.user as string, funko, requerimiento.query.id as string)))
+    // let funkoPops: Funko[] = [];
+    // funkoPops = new FuncosCollection().cargarFunkosUsuario(
+    //   requerimiento.query.user as string
+    // );
 
-    if(funko == undefined){
-      respuesta.status(400).send({error: "No se ha encontrado el recurso"})
-    }else{
-      funkoPops = funkoPops.filter((funko) => funko.id.toString() != requerimiento.query.id)
-      let funkoModificado: Funko = new Funko(
-        parseInt(requerimiento.query.id as string),
-        requerimiento.query.name as string,
-        requerimiento.query.descripcion as string,
-        requerimiento.query.tipo as Tipo,
-        requerimiento.query.genero as Genero,
-        requerimiento.query.franquicia as string,
-        parseInt(requerimiento.query.numero as string),
-        requerimiento.query.exclusivo as string == "true" ? true : false,
-        requerimiento.query.caracteristicasEspeciales as string,
-        parseFloat(requerimiento.query.precio as string)
-      );
-      funkoPops.push(funkoModificado)
-      let funkos = new FuncosCollection().guardarFunkosUsuario(
-        funkoPops,
-        requerimiento.query.user as string
-      );
-      respuesta.send({message : "Funko modificado"})
-    }
+    // let funko: Funko | undefined = funkoPops.find(
+    //   (funko) => funko.id.toString() == requerimiento.query.id
+    // );
+
+    // if(funko == undefined){
+    //   respuesta.status(400).send({error: "No se ha encontrado el recurso"})
+    // }else{
+    //   funkoPops = funkoPops.filter((funko) => funko.id.toString() != requerimiento.query.id)
+    //   let funkoModificado: Funko = new Funko(
+    //     parseInt(requerimiento.query.id as string),
+    //     requerimiento.query.name as string,
+    //     requerimiento.query.descripcion as string,
+    //     requerimiento.query.tipo as Tipo,
+    //     requerimiento.query.genero as Genero,
+    //     requerimiento.query.franquicia as string,
+    //     parseInt(requerimiento.query.numero as string),
+    //     requerimiento.query.exclusivo as string == "true" ? true : false,
+    //     requerimiento.query.caracteristicasEspeciales as string,
+    //     parseFloat(requerimiento.query.precio as string)
+    //   );
+    //   funkoPops.push(funkoModificado)
+    //   let funkos = new FuncosCollection().guardarFunkosUsuario(
+    //     funkoPops,
+    //     requerimiento.query.user as string
+    //   );
+    //   respuesta.send({message : "Funko modificado"})
+    // }
   };
 
   private error = (
