@@ -52,7 +52,7 @@ export class funkoServer {
         respuesta.status(400).send({ error: "No se ha introducido el id" });
       }
 
-      
+
 
       let funkoPops: Funko[] = [];
       funkoPops = new FuncosCollection().cargarFunkosUsuario(
